@@ -5,7 +5,7 @@ func Greedy(person Person, maxSize int) []Mingle {
 
 	m := Mingle{nil, maxSize}
 	for i, p := range person.Prefs {
-		if i%(maxSize-1) == 0 {
+		if i != 0 && i%(maxSize-1) == 0 {
 			m.People = append(m.People, person.Name)
 			mingles = append(mingles, m)
 			m = Mingle{nil, maxSize}
