@@ -8,7 +8,7 @@ type Person struct {
 }
 
 func ExtractPerson(name, file string) Person {
-	lines := strings.Split(file, "\n")
+	lines := strings.Split(strings.TrimSpace(file), "\n")
 	p := Person{name, nil}
 	p.Prefs = append(p.Prefs, lines...)
 	return p
