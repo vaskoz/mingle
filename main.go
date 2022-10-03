@@ -15,13 +15,13 @@ var (
 func main() {
 	size := os.Getenv("MINGLE_SIZE")
 	if size == "" {
-		fmt.Fprintln(stderr, "must specify a positive non-zero integer for group size")
+		fmt.Fprintln(stderr, "must specify a positive >1 integer for group size")
 		exit(1)
 	}
 
 	sizeI, err := strconv.Atoi(size)
-	if err != nil {
-		fmt.Fprintln(stderr, "invalid group size", size)
+	if err != nil || sizeI < 2 {
+		fmt.Fprintln(stderr, "must specify a positive >1 integer for group size", size)
 		exit(1)
 	}
 
