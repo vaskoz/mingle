@@ -47,6 +47,7 @@ func main() {
 		people = append(people, p)
 	}
 
-	fmt.Fprintln(stdout, "group size is", sizeI)
-	fmt.Fprintln(stdout, people)
+	mingles := Greedy(people[0], sizeI)
+
+	fmt.Fprintln(stdout, mingles)
 }
