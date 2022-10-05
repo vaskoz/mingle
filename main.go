@@ -37,17 +37,17 @@ func main() {
 		exit(1)
 	}
 
-	var people []Person
+	var people []*Person
 
 	for _, file := range files {
 		fullPath := fmt.Sprintf("%s/%s", peopleDir, file.Name())
 		b, _ := os.ReadFile(fullPath)
 		fileS := string(b)
 		p := ExtractPerson(file.Name(), fileS)
-		people = append(people, p)
+		people = append(people, &p)
 	}
 
-	mingles := Greedy(people[0], sizeI)
+	mingles := GreedyPeople(people, sizeI)
 
 	fmt.Fprintln(stdout, mingles)
 }
