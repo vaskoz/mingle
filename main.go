@@ -47,7 +47,7 @@ func main() {
 		people = append(people, &p)
 	}
 
-	mingles := GreedyPeople(people, sizeI)
+	mingles := MoarGreedyPeople(people, sizeI)
 
 	fmt.Fprintln(stdout, mingles)
 }
