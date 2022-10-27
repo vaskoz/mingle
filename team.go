@@ -23,6 +23,6 @@ func ExtractTeam(name, file string) Team {
 	return team
 }
 
-func MingleTeams(teams []Team) []Mingle {
+func MingleTeams(teams []Team, groupSize []int) []Mingle {
 	return nil
 }
