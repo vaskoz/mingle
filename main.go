@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"strconv"
 )
 
 var (
@@ -13,21 +12,9 @@ var (
 )
 
 func main() {
-	size := os.Getenv("MINGLE_SIZE")
-	if size == "" {
-		fmt.Fprintln(stderr, "must specify a positive >1 integer for group size")
-		exit(1)
-	}
-
-	sizeI, err := strconv.Atoi(size)
-	if err != nil || sizeI < 2 {
-		fmt.Fprintln(stderr, "must specify a positive >1 integer for group size", size)
-		exit(1)
-	}
-
-	peopleDir := os.Getenv("MINGLE_DIR")
+	peopleDir := os.Getenv("MINGLE_TEAM_DIR")
 	if peopleDir == "" {
-		fmt.Fprintln(stderr, "must set env var MINGLE_DIR")
+		fmt.Fprintln(stderr, "must set env var MINGLE_TEAM_DIR")
 		exit(1)
 	}
 
@@ -37,17 +24,17 @@ func main() {
 		exit(1)
 	}
 
-	var people []*Person
+	teams := make([]Team, 0, len(files))
 
 	for _, file := range files {
 		fullPath := fmt.Sprintf("%s/%s", peopleDir, file.Name())
 		b, _ := os.ReadFile(fullPath)
 		fileS := string(b)
-		p := ExtractPerson(file.Name(), fileS)
-		people = append(people, &p)
+		team := ExtractTeam(file.Name(), fileS)
+		teams = append(teams, team)
 	}
 
-	mingles := MoarGreedyPeople(people, sizeI)
+	seating := MingleTeams(teams)
 
-	fmt.Fprintln(stdout, mingles)
+	fmt.Fprintln(stdout, seating)
 }
