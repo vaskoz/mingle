@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 )
@@ -10,25 +11,25 @@ var (
 	stderr = os.Stderr
 	stdout = os.Stdout
 	exit   = os.Exit
+	args   = os.Args
 )
 
 func main() {
-	size := os.Getenv("MINGLE_SIZE")
-	if size == "" {
-		fmt.Fprintln(stderr, "must specify a positive >1 integer for group size")
-		exit(1)
-	}
-
-	sizeI, err := strconv.Atoi(size)
-	if err != nil || sizeI < 2 {
-		fmt.Fprintln(stderr, "must specify a positive >1 integer for group size", size)
-		exit(1)
-	}
-
-	peopleDir := os.Getenv("MINGLE_DIR")
+	peopleDir := os.Getenv("MINGLE_TEAM_DIR")
 	if peopleDir == "" {
-		fmt.Fprintln(stderr, "must set env var MINGLE_DIR")
+		fmt.Fprintln(stderr, "must set env var MINGLE_TEAM_DIR")
 		exit(1)
+	}
+
+	groupSizes := make([]int, 0, len(args))
+
+	for i := 1; i < len(args); i++ {
+		if size, err := strconv.Atoi(args[i]); err != nil {
+			fmt.Fprintln(stderr, "argument is not a integer for group size", args[i])
+			exit(1)
+		} else {
+			groupSizes = append(groupSizes, size)
+		}
 	}
 
 	files, err := os.ReadDir(peopleDir)
@@ -37,17 +38,42 @@ func main() {
 		exit(1)
 	}
 
-	var people []*Person
+	teams := make([]Team, 0, len(files))
 
 	for _, file := range files {
 		fullPath := fmt.Sprintf("%s/%s", peopleDir, file.Name())
 		b, _ := os.ReadFile(fullPath)
 		fileS := string(b)
-		p := ExtractPerson(file.Name(), fileS)
-		people = append(people, &p)
+		team := ExtractTeam(file.Name(), fileS)
+		teams = append(teams, team)
 	}
 
-	mingles := MoarGreedyPeople(people, sizeI)
+	totalPeople := 0
 
-	fmt.Fprintln(stdout, mingles)
+	for _, team := range teams {
+		totalPeople += len(team.Mates)
+	}
+
+	log.Println("Total People", totalPeople)
+
+	totalSeating := 0
+	for _, size := range groupSizes {
+		totalSeating += size
+	}
+
+	if totalPeople > totalSeating {
+		fmt.Fprintln(stderr, "not enough seats for the people", totalPeople, totalSeating)
+		exit(1)
+	}
+
+	seating := MingleTeams(teams, groupSizes)
+
+	for i, table := range seating {
+		fmt.Fprintln(stdout, "=====================================================")
+		fmt.Fprintf(stdout, "Seating Arrangement for Group %d of %d people.\n", i+1, table.MaxSize)
+		fmt.Fprintln(stdout, "=====================================================")
+		for _, person := range table.People {
+			fmt.Fprintln(stdout, person)
+		}
+	}
 }
