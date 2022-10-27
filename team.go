@@ -2,8 +2,10 @@ package main
 
 import (
 	"log"
+	"math/rand"
 	"sort"
 	"strings"
+	"time"
 )
 
 type Teammate struct {
@@ -32,6 +34,14 @@ func MingleTeams(teams []Team, groupSize []int) []Mingle {
 	sort.Slice(teams, func(i, j int) bool { // largest teams first
 		return len(teams[i].Mates) > len(teams[j].Mates)
 	})
+
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	for _, team := range teams {
+		r.Shuffle(len(team.Mates), func(i, j int) {
+			team.Mates[i], team.Mates[j] = team.Mates[j], team.Mates[i]
+		})
+	}
 
 	for i, gs := range groupSize {
 		mingles[i].MaxSize = groupSize[i]
