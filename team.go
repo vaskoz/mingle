@@ -48,6 +48,7 @@ func MingleTeams(teams []Team, groupSize []int) []Mingle {
 						if total == gs {
 							break outer
 						}
+						break
 					}
 				}
 			}
