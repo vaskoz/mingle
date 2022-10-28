@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"sort"
@@ -54,7 +55,7 @@ func MingleTeams(teams []Team, groupSize []int) []Mingle {
 					if _, done := seated[person.PersonName]; !done {
 						seated[person.PersonName] = struct{}{}
 						total++
-						mingles[i].People = append(mingles[i].People, person.PersonName)
+						mingles[i].People = append(mingles[i].People, fmt.Sprintf("%s from %s", person.PersonName, person.TeamName))
 						if total == gs {
 							break outer
 						}
