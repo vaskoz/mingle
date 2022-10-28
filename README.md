@@ -10,8 +10,8 @@ MINGLE_TEAM_DIR=$HOME/offsiteTeams ./mingle 12 12 12 12 12 12 11
 
 A directory with all the different Dunder Mifflin branches. Inside each file is a list of employees at that branch.
 ```
-~/TheUsaOfficeOffsite> ls
-Akron branch      Albany branch     Corporate HQ      Nashua branch     Rochester branch  Scranton branch   Stamford branch
+Akron branch      Albany branch     Corporate HQ      Nashua branch
+Rochester branch  Scranton branch   Stamford branch
 ```
 
 Here is a view of the employees in each branch.
