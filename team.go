@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
 	"sort"
 	"strings"
@@ -66,6 +65,5 @@ func MingleTeams(teams []Team, groupSize []int) []Mingle {
 		}
 	}
 
-	log.Println("seated size:", len(seated))
 	return mingles
 }
