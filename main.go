@@ -70,7 +70,7 @@ func main() {
 
 	for i, table := range seating {
 		fmt.Fprintln(stdout, "=====================================================")
-		fmt.Fprintf(stdout, "Seating Arrangement for Group %d of %d people.\n", i+1, table.MaxSize)
+		fmt.Fprintf(stdout, "[GROUP %d] Seating Arrangement for %d people.\n", i+1, table.MaxSize)
 		fmt.Fprintln(stdout, "=====================================================")
 		for _, person := range table.People {
 			fmt.Fprintln(stdout, person)
