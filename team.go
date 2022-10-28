@@ -27,7 +27,7 @@ func ExtractTeam(name, file string) Team {
 	return team
 }
 
-func MingleTeams(teams []Team, groupSize []int) []Mingle {
+func MingleTeams(teams []Team, groupSize []int, matches map[string]map[string]struct{}) []Mingle {
 	seated := make(map[string]struct{})
 	mingles := make([]Mingle, len(groupSize))
 
@@ -61,6 +61,24 @@ func MingleTeams(teams []Team, groupSize []int) []Mingle {
 						break
 					}
 				}
+			}
+		}
+	}
+
+	for _, mingle := range mingles {
+		for i := 0; i < len(mingle.People)-1; i++ {
+			for j := i + 1; j < len(mingle.People); j++ {
+				first := mingle.People[i]
+				second := mingle.People[j]
+
+				if matches[first] == nil {
+					matches[first] = make(map[string]struct{})
+				}
+				if matches[second] == nil {
+					matches[second] = make(map[string]struct{})
+				}
+				matches[first][second] = struct{}{}
+				matches[second][first] = struct{}{}
 			}
 		}
 	}
