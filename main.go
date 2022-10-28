@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 )
@@ -54,15 +53,13 @@ func main() {
 		totalPeople += len(team.Mates)
 	}
 
-	log.Println("Total People", totalPeople)
-
 	totalSeating := 0
 	for _, size := range groupSizes {
 		totalSeating += size
 	}
 
-	if totalPeople > totalSeating {
-		fmt.Fprintln(stderr, "not enough seats for the people", totalPeople, totalSeating)
+	if totalPeople != totalSeating {
+		fmt.Fprintln(stderr, "People and Seats must match:", totalPeople, "people, ", totalSeating, "seats.")
 		exit(1)
 	}
 
@@ -70,7 +67,7 @@ func main() {
 
 	for i, table := range seating {
 		fmt.Fprintln(stdout, "=====================================================")
-		fmt.Fprintf(stdout, "Seating Arrangement for Group %d of %d people.\n", i+1, table.MaxSize)
+		fmt.Fprintf(stdout, "[GROUP %d] Seating Arrangement for %d people.\n", i+1, table.MaxSize)
 		fmt.Fprintln(stdout, "=====================================================")
 		for _, person := range table.People {
 			fmt.Fprintln(stdout, person)
