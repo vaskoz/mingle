@@ -8,7 +8,7 @@ MINGLE_TEAM_DIR=$HOME/offsiteTeams ./mingle 12 12 12 12 12 12 11
 
 # The Office (US TV show) Offsite
 
-A directory with all the different Dunder Mifflin branches. Inside each file is a list of employees at that branch.
+A directory with all the different [Dunder Mifflin branches](https://theoffice.fandom.com/wiki/Branch_(disambiguation)). Inside each file is a list of employees at that branch.
 ```
 Akron branch      Albany branch     Corporate HQ      Nashua branch
 Rochester branch  Scranton branch   Stamford branch
