@@ -30,13 +30,6 @@ func ExtractTeam(name, file string) Team {
 func MingleTeams(teams []Team, groupSize []int, matches map[string]map[string]struct{}) []Mingle {
 	seated := make(map[string]struct{})
 	mingles := make([]Mingle, len(groupSize))
-	totalCount, totalMatches := 0, 0
-
-	for _, team := range teams {
-		totalCount += len(team.Mates)
-	}
-
-	totalMatches = totalCount * (totalCount - 1) / 2
 
 	sort.Slice(teams, func(i, j int) bool { // largest teams first
 		return len(teams[i].Mates) > len(teams[j].Mates)
@@ -67,7 +60,7 @@ func MingleTeams(teams []Team, groupSize []int, matches map[string]map[string]st
 								count++
 							}
 						}
-						if count > 0 {
+						if count > gs/2 {
 							continue
 						}
 						seated[person.PersonName] = struct{}{}
