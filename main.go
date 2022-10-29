@@ -51,27 +51,25 @@ func main() {
 	matches := make(map[string]map[string]struct{})
 
 	matchesFile := os.Getenv("MINGLE_MATCHES_FILE")
-	if matchesFile != "" {
-		matchesData, err := os.ReadFile(matchesFile)
-		if err != nil {
-			fmt.Fprintln(stderr, "failed to open matches file")
-			exit(1)
-		}
-		matchesS := string(matchesData)
-		matchesS = strings.TrimSpace(matchesS)
-		if matchesS != "" {
-			lines := strings.Split(matchesS, "\n")
-			for _, line := range lines {
-				parts := strings.Split(line, ",")
-				if matches[parts[0]] == nil {
-					matches[parts[0]] = make(map[string]struct{})
-				}
-				if matches[parts[1]] == nil {
-					matches[parts[1]] = make(map[string]struct{})
-				}
-				matches[parts[0]][parts[1]] = struct{}{}
-				matches[parts[1]][parts[0]] = struct{}{}
+	matchesData, err := os.ReadFile(matchesFile)
+	if err != nil {
+		fmt.Fprintln(stderr, "failed to open matches file")
+		exit(1)
+	}
+	matchesS := string(matchesData)
+	matchesS = strings.TrimSpace(matchesS)
+	if matchesS != "" {
+		lines := strings.Split(matchesS, "\n")
+		for _, line := range lines {
+			parts := strings.Split(line, ",")
+			if matches[parts[0]] == nil {
+				matches[parts[0]] = make(map[string]struct{})
 			}
+			if matches[parts[1]] == nil {
+				matches[parts[1]] = make(map[string]struct{})
+			}
+			matches[parts[0]][parts[1]] = struct{}{}
+			matches[parts[1]][parts[0]] = struct{}{}
 		}
 	}
 
