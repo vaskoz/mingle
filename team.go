@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"sort"
 	"strings"
 	"time"
 )
@@ -31,11 +30,11 @@ func MingleTeams(teams []Team, groupSize []int, matches map[string]map[string]st
 	seated := make(map[string]struct{})
 	mingles := make([]Mingle, len(groupSize))
 
-	sort.Slice(teams, func(i, j int) bool { // largest teams first
-		return len(teams[i].Mates) > len(teams[j].Mates)
-	})
-
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	r.Shuffle(len(teams), func(i, j int) {
+		teams[i], teams[j] = teams[j], teams[i]
+	})
 
 	for _, team := range teams {
 		r.Shuffle(len(team.Mates), func(i, j int) {
